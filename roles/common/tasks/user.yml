@@ -1,0 +1,27 @@
+- name: create user
+  user:
+    name: "{{ item.name }}"
+    createhome: yes
+    password: "{{ item.password | password_hash('sha512') }}"
+    shell: "{{ item.shell }}"
+    groups: "{{ item.groups }}"
+    state: "{{ item.state }}"
+    remove: "{{ item.remove }}"
+  loop:
+  - { shell: '/bin/bash', groups: 'menta', state: 'present', remove: 'no', name: 'menta', 
+password: '$6$salt1234$EAwwNYQ0vAWXilLJS6iO5PnCIRWHaR0wFrfsEq26M/sre4KCHJu5A8lI4TKzuQqwAGEKAndpvqnwgCK6MaE7w0' }
+
+- name: add sudoers
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: "{{ item.match }}"
+    line: "{{ item.line }}"
+  loop:
+  - { match: 'menta', line: 'menta ALL=(ALL) NOPASSWD: ALL' }
+
+- name: authorized_key for user menta 
+  ignore_errors: true
+  authorized_key:
+    user: menta
+    key: "{{ lookup('file', '~/.ssh/menta.pub') }}"

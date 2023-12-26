@@ -1,0 +1,6 @@
+[web]
+dev-vagrant
+
+#group
+[prd:children]
+web

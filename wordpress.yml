@@ -1,0 +1,11 @@
+- hosts: all
+  roles:
+    - common
+
+- hosts: dev-vagrant
+  roles:
+    - nginx
+    - php
+    - mysql
+    - wordpress
+    - cron

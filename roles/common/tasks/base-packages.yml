@@ -1,0 +1,17 @@
+- name: yum install basepackage
+  yum: name={{ item }} state=present
+  loop:
+    - vim
+    - zsh
+    - git
+    - tree
+    - epel-release
+    - htop
+    - iftop
+    - mlocate
+    - telnet
+    - wget
+    - ipa-pgothic-fonts
+
+- name: stop firewalld
+  systemd: name=firewalld enabled=no state=stopped

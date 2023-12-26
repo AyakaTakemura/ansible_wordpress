@@ -1,0 +1,9 @@
+- name: copy crontab
+  copy:
+    src: "{{ item.src }}"
+    dest: "/etc/{{ item.dest }}"
+    backup: no
+    owner: root
+    group: root
+  loop:
+    - { src: roles/cron/files/crontab, dest: . }
